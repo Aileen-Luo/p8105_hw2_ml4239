@@ -59,6 +59,8 @@ These datas are not tidy because the route number and route name variable are no
 ```{r}
 nrow(distinct(NYC_transit_data, station_name, line ))
 ```
+There are 465 distinct stations which characterized by name and line.
+
 * How many stations are ADA compliant?
 ```{r}
 NYC_transit_data %>% 
@@ -66,8 +68,42 @@ filter(ada==TRUE) %>%
   distinct(station_name,line) %>% 
   nrow()
 ```
+
+84 stations are ADA compliant. 
+
 * What proportion of station entrances / exits without vending allow entrance?
 ```{r}
   sum(NYC_transit_data$vending == "NO"& NYC_transit_data$entry == "YES")/sum (NYC_transit_data$vending == "NO")
 ```
+
+The proportion of station entrances/ exits without vending allow entrance is 0.3770
+
+##Reformat data 
+so that route number and route name are distinct variables
+```{r}
+NYC_transit_tidy<-gather(NYC_transit_data, key = route_number, value = route_name, route1:route11) 
+ 
+```
+
+* How many distinct stations serve the A train?
+
+```{r}
+NYC_transit_tidy %>% 
+  filter(route_name == "A") %>%
+  distinct(station_name, line) %>% 
+  nrow() 
+```
+
+60 dinstinct stations serve the A train.
+
+* How many of the stations that serve the A train are ADA compliant?
+ 
+```{r}
+NYC_transit_tidy %>% 
+filter(route_name == "A" & ada == TRUE) %>% 
+  distinct(station_name,line) %>% 
+  nrow()
+```
+
+17 stations that serve the A train are ADA compliant
 
