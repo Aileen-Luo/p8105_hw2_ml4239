@@ -46,10 +46,28 @@ ifelse(NYC_transit_data$entry == "YES", TRUE, FALSE) %>%
 * entrance_type: the type of entrance (stair, elevator, door, etc.)
 * ada: if the station is ADA compliant
 
-##The step that I used to clean the data:
+##The steps that I used to clean the data:
 After importing the data, I used  `clean_names` from `janitor package` to clean the names. And then I select some variables from the original dataset, and convert the 'entry' variable from character to logical variable.
 
-##overview about the dataset
+##Overview about the dataset
 The dimension of the resulting dataset is `r dim(NYC_transit_data)` after cleaning. 
 
 These datas are not tidy because the route number and route name variable are not in their own columns. The variables from route 1 to 11 can be put into the same column as "route_name"variable.
+
+##Questions using these data
+* How many distinct stations are there? 
+```{r}
+nrow(distinct(NYC_transit_data, station_name, line ))
+```
+* How many stations are ADA compliant?
+```{r}
+NYC_transit_data %>% 
+filter(ada==TRUE) %>% 
+  distinct(station_name,line) %>% 
+  nrow()
+```
+* What proportion of station entrances / exits without vending allow entrance?
+```{r}
+  sum(NYC_transit_data$vending == "NO"& NYC_transit_data$entry == "YES")/sum (NYC_transit_data$vending == "NO")
+```
+
