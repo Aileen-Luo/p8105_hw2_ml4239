@@ -47,4 +47,9 @@ ifelse(NYC_transit_data$entry == "YES", TRUE, FALSE) %>%
 * ada: if the station is ADA compliant
 
 ##The step that I used to clean the data:
-After importing the data, I used  `clean_names` from `janitor package` to clean the names. And then I select some variables from the original dataset, and convert the ` entry` variable from character to logical variable.
+After importing the data, I used  `clean_names` from `janitor package` to clean the names. And then I select some variables from the original dataset, and convert the 'entry' variable from character to logical variable.
+
+##overview about the dataset
+The dimension of the resulting dataset is `r dim(NYC_transit_data)` after cleaning. 
+
+These datas are not tidy because the route number and route name variable are not in their own columns. The variables from route 1 to 11 can be put into the same column as "route_name"variable.
