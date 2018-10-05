@@ -1,5 +1,7 @@
 ---
-title: "p8105_hw2_ml4239.git"
+title: "p8105_hw2_ml4239"
+Author: "Man Luo"
+Date: 2018-10-05
 output: github_document
 ---
 
@@ -106,4 +108,35 @@ filter(route_name == "A" & ada == TRUE) %>%
 ```
 
 17 stations that serve the A train are ADA compliant
+
+#Problem 2 Mr. Trash Wheel
+##Import and clean data Mr. Trash Wheel
+```{r}
+Mr.Trash_data<-read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 1, range = "A2:N258") %>% 
+  janitor::clean_names() %>% 
+  filter(!is.na(dumpster)) %>% 
+  mutate(sports_balls = as.integer(ceiling(sports_balls))) 
+ 
+```
+
+##Read and clean precipitation data for 2016 and 2017.
+```{r}
+Precipitation_2016_data<-read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 5, range = "A2:B15") %>% 
+  janitor::clean_names() %>% 
+  na.omit() %>% 
+  mutate( year = "2016")
+
+Precipitation_2017_data<-read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 4, range = "A2:B15") %>% 
+  janitor::clean_names() %>% 
+  na.omit() %>% 
+  mutate( year = "2017")
+```
+
+combine datasets and convert month to a character variable 
+```{r}
+Precipitation_bind<-
+  rbind(Precipitation_2016_data,Precipitation_2017_data) %>% 
+  mutate(month = month.name[as.integer(.$month)])
+```
+ 
 
