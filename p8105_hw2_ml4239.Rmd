@@ -25,3 +25,26 @@ NYC_transit_data<-read_csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv
   janitor::clean_names() %>% 
   select(line, station_name, station_latitude, station_longitude, route1:route11, entry, vending, entrance_type, ada) 
 ```
+convert entry variable to from character (`rYES` vs `rNO`) to a logical variable
+
+```{r}
+ifelse(NYC_transit_data$entry == "YES", TRUE, FALSE) %>% 
+  str()
+```
+
+##The NYC_transit_data dataset contains the following variables:
+
+`r names(NYC_transit_data)`
+
+* line: tracks that trains run over
+* station_name: station names
+* station_latitude: the latitude location of the station
+* station_longitude: the longitude location of the station
+* route 1-11: route the station serves
+* entry: logical vector to show if the station has entry (TRUE) or not (FALSE)
+* vending: if the station has vending system or not
+* entrance_type: the type of entrance (stair, elevator, door, etc.)
+* ada: if the station is ADA compliant
+
+##The step that I used to clean the data:
+After importing the data, I used  `clean_names` from `janitor package` to clean the names. And then I select some variables from the original dataset, and convert the ` entry` variable from character to logical variable.
