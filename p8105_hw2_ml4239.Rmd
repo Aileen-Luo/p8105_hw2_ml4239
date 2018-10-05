@@ -112,7 +112,7 @@ filter(route_name == "A" & ada == TRUE) %>%
 #Problem 2 Mr. Trash Wheel
 ##Import and clean data Mr. Trash Wheel
 ```{r}
-Mr.Trash_data<-read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 1, range = "A2:N258") %>% 
+Mr.Trash_data<-read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 1, range = cell_cols("Dumpster:Homes Powered")) %>% 
   janitor::clean_names() %>% 
   filter(!is.na(dumpster)) %>% 
   mutate(sports_balls = as.integer(ceiling(sports_balls))) 
@@ -121,12 +121,12 @@ Mr.Trash_data<-read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", 
 
 ##Read and clean precipitation data for 2016 and 2017.
 ```{r}
-Precipitation_2016_data<-read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 5, range = "A2:B15") %>% 
+Precipitation_2016_data<-read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 5, range = "A2:B14") %>% 
   janitor::clean_names() %>% 
   na.omit() %>% 
   mutate( year = "2016")
 
-Precipitation_2017_data<-read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 4, range = "A2:B15") %>% 
+Precipitation_2017_data<-read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = 4, range = "A2:B14") %>% 
   janitor::clean_names() %>% 
   na.omit() %>% 
   mutate( year = "2017")
@@ -139,4 +139,28 @@ Precipitation_bind<-
   mutate(month = month.name[as.integer(.$month)])
 ```
  
+## Datasets description
 
+* The first dataset is 'Mr. Trash_data'. 
+
+
+The number of observations in Mr.Trash_data is `r dim(Mr.Trash_data)`
+
+This dataset contains record about 'dumpster numbers', 'time of collection' and 'types of litters'.
+
+* The second dataset is 'precipitation_bind'. 
+
+Variables are month, total precipitation in that month and the year. 
+
+The Precipitation_2016 contains `r nrow(Precipitation_2016_data)` variables.
+
+The Precipitation_2017 contains `r nrow(Precipitation_2017_data)` variables.
+
+The number of observations in Precipitaion_bind is `r nrow(Precipitation_bind) `. 
+
+* Questions
+
+The total precipitation in 2017 is `r sum(Precipitation_bind$total[Precipitation_bind$year==2017])`. 
+
+The median number of sports balls in a dumpster in 2016 is `r median(na.omit(Mr.Trash_data$sports_balls[Mr.Trash_data$year==2016]))`
+ 
